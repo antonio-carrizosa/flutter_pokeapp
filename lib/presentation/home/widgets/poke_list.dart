@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:pokeapp/core/models/result.dart';
+import 'package:pokeapp/presentation/details/pokemon_details.dart';
 import 'package:pokeapp/presentation/home/widgets/poke_list_item.dart';
 
 class PokeList extends HookWidget {
@@ -17,6 +18,7 @@ class PokeList extends HookWidget {
       scrollController.addListener(() {
         if (scrollController.offset >=
             scrollController.position.maxScrollExtent) {
+          //TODO: Corregir el numero de peticiones
           loadMore();
         }
       });
@@ -32,6 +34,16 @@ class PokeList extends HookWidget {
         return PokeListItem(
           pokemon: pokemon,
           id: index + 1,
+          onTap: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => PokemonDetails(
+                    id: index + 1,
+                    pokemon: pokemon,
+                  ),
+                ));
+          },
         );
       },
     );

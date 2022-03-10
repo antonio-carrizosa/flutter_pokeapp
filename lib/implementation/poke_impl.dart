@@ -40,8 +40,21 @@ class PokeImplementation extends PokeRepository {
   }
 
   @override
-  Future<Either<Failure, Pokemon>> getPokemon() {
-    // TODO: implement getPokemon
-    throw UnimplementedError();
+  Future<Either<Failure, Pokemon>> getPokemon(int id) async {
+    try {
+      final url = Uri.parse('$pokeApi/$id');
+      final response = await http.get(url).timeout(const Duration(seconds: 5));
+      final data = jsonDecode(response.body);
+      if (response.statusCode == 200) {
+        return Right(Pokemon.fromJson(data));
+      }
+      print(data);
+      return Left(UnexpectedFailure());
+    } on SocketException catch (e) {
+      print(e);
+      return Left(SocketFailure());
+    } on TimeoutException catch (e) {
+      return Left(TimeoutFailure());
+    }
   }
 }

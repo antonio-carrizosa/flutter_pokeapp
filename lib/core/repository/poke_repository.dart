@@ -5,5 +5,5 @@ import 'package:pokeapp/core/models/result.dart';
 
 abstract class PokeRepository {
   Future<Either<Failure, List<Result>>> getPokeList();
-  Future<Either<Failure, Pokemon>> getPokemon();
+  Future<Either<Failure, Pokemon>> getPokemon(int id);
 }

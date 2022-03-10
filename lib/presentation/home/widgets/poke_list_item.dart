@@ -8,9 +8,14 @@ final spriteBaseUrl = dotenv.env['SPRITE_URL'];
 class PokeListItem extends StatelessWidget {
   final Result pokemon;
   final int id;
+  final void Function() onTap;
 
-  const PokeListItem({Key? key, required this.pokemon, required this.id})
-      : super(key: key);
+  const PokeListItem({
+    Key? key,
+    required this.pokemon,
+    required this.id,
+    required this.onTap,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,49 +24,56 @@ class PokeListItem extends StatelessWidget {
       height: 100,
       child: Padding(
           padding: const EdgeInsets.only(left: 8, right: 8, top: 8),
-          child: Background(
-            children: [
-              Row(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: SizedBox(
-                      width: 80,
-                      height: 80,
-                      child: FadeInImage(
-                        placeholder: const AssetImage('assets/pokeball.png'),
-                        image: NetworkImage('$spriteBaseUrl/$id.png'),
-                        imageErrorBuilder: (_, __, ___) {
-                          return Image.asset('$spriteBaseUrl/$id.png');
-                        },
+          child: InkWell(
+            onTap: onTap,
+            child: Background(
+              children: [
+                Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: SizedBox(
+                        width: 80,
+                        height: 80,
+                        child: Hero(
+                          tag: pokemon.name,
+                          child: FadeInImage(
+                            placeholder:
+                                const AssetImage('assets/pokeball.png'),
+                            image: NetworkImage('$spriteBaseUrl/$id.png'),
+                            imageErrorBuilder: (_, __, ___) {
+                              return Image.asset('$spriteBaseUrl/$id.png');
+                            },
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                  Text(
-                    pokemon.name.capitalize(),
-                    style: const TextStyle(
-                        color: Color(0XFFFFCC00),
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  IconButton(
-                    onPressed: () {
-                      //TODO: Implementar eliminar
-                      print("delete");
-                    },
-                    icon: Icon(
-                      Icons.delete,
-                      size: 30,
-                      color: Theme.of(context).errorColor.withOpacity(0.8),
+                    Text(
+                      pokemon.name.capitalize(),
+                      style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold),
                     ),
-                  )
-                ],
-              ),
-            ],
+                  ],
+                ),
+                Row(
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        //TODO: Implementar eliminar
+                        print("delete");
+                      },
+                      icon: const Icon(
+                        Icons.delete,
+                        size: 30,
+                        color: Color(0XFFFFCC00),
+                      ),
+                    )
+                  ],
+                ),
+              ],
+            ),
           )),
     );
     /* Image.network('$spriteBaseUrl/${index + 1}.png'), */

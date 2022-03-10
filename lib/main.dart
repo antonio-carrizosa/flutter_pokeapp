@@ -32,10 +32,7 @@ class PokeApp extends StatelessWidget {
         appBarTheme: const AppBarTheme(
           elevation: 0,
           backgroundColor: Color(0XFF0A285F),
-          titleTextStyle: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 20,
-              color: Color(0XFFFFCC00)),
+          titleTextStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
         ),
         progressIndicatorTheme: const ProgressIndicatorThemeData(
           color: Color(0XFFFFCC00),
