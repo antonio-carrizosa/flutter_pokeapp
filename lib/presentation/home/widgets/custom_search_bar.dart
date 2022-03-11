@@ -41,6 +41,7 @@ class CustomSearchBar extends HookWidget {
         style: TextStyle(
             color: Theme.of(context).primaryColor, fontWeight: FontWeight.bold),
         decoration: InputDecoration(
+            hintText: "Search by pokemon id or name.",
             labelStyle: TextStyle(color: Theme.of(context).primaryColor),
             hintStyle: TextStyle(color: Theme.of(context).primaryColor),
             filled: true,
