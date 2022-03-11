@@ -40,11 +40,15 @@ class Home extends ConsumerWidget {
       body: Column(
         children: [
           CustomSearchBar(search: notifier.searchPokemon),
+          // shows a CircularProgessIndicator when a search is in process.
           if (state.searching)
             const Padding(
               padding: EdgeInsets.all(8.0),
               child: CircularProgressIndicator(),
             ),
+          // shows a SearchResult item of a search completes with a Result.
+          // it's just a ListTile it could be a ListView but since whe only get a
+          // result if the request completes i decide to do it this way.
           if (state.founded != null)
             SearchResult(
               pokemon: state.founded!,
@@ -56,6 +60,7 @@ class Home extends ConsumerWidget {
                 ));
               },
             ),
+          // Shows a list of `Result` in a ListView
           if (!state.searching && state.founded == null)
             Expanded(
               child: Column(
@@ -77,6 +82,7 @@ class Home extends ConsumerWidget {
             ),
         ],
       ),
+      // Hide the floating action buttton if the user is seeying the result of a search
       floatingActionButton: (state.searching || state.founded != null)
           ? null
           : FloatingActionButton(

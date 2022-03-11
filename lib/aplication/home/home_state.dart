@@ -4,6 +4,18 @@ import 'package:pokeapp/core/failures/failures.dart';
 import 'package:pokeapp/core/models/pokemon.dart';
 import 'package:pokeapp/core/models/result.dart';
 
+/// Representation of the HomeState:
+///
+/// `List<Result>` results;
+///
+/// `bool` loading;
+///
+/// `Option<Failure>` failureOption;
+///
+/// `bool` searching;
+///
+/// `Pokemon?` founded;
+
 class HomeState {
   final List<Result> results;
   final bool loading;

@@ -6,9 +6,10 @@ import 'package:pokeapp/aplication/splash/splash_state.dart';
 import 'package:pokeapp/aplication/splash/splash_state_notifier.dart';
 import 'package:pokeapp/core/failures/failures.dart';
 import 'package:pokeapp/core/models/pokemon.dart';
-
 import 'package:pokeapp/core/repository/poke_repository.dart';
 import 'package:pokeapp/implementation/poke_impl.dart';
+
+// Dependency Injection
 
 final pokeRepository = Provider<PokeRepository>((_) => PokeImplementation());
 

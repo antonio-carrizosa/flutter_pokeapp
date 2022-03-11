@@ -1,4 +1,6 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:pokeapp/core/models/stat.dart';
+import 'package:pokeapp/core/models/type.dart';
 
 class Pokemon {
   Pokemon(
@@ -28,68 +30,4 @@ class Pokemon {
       types: List<Type>.from(json["types"].map((x) => Type.fromJson(x))),
     );
   }
-}
-
-class Type {
-  Type({
-    required this.slot,
-    required this.type,
-  });
-
-  int slot;
-  Species type;
-
-  factory Type.fromJson(Map<String, dynamic> json) => Type(
-        slot: json["slot"],
-        type: Species.fromJson(json["type"]),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "slot": slot,
-        "type": type.toJson(),
-      };
-}
-
-class Species {
-  Species({
-    required this.name,
-    required this.url,
-  });
-
-  String name;
-  String url;
-
-  factory Species.fromJson(Map<String, dynamic> json) => Species(
-        name: json["name"],
-        url: json["url"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "name": name,
-        "url": url,
-      };
-}
-
-class Stat {
-  Stat({
-    required this.baseStat,
-    required this.effort,
-    required this.stat,
-  });
-
-  int baseStat;
-  int effort;
-  Species stat;
-
-  factory Stat.fromJson(Map<String, dynamic> json) => Stat(
-        baseStat: json["base_stat"],
-        effort: json["effort"],
-        stat: Species.fromJson(json["stat"]),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "base_stat": baseStat,
-        "effort": effort,
-        "stat": stat.toJson(),
-      };
 }

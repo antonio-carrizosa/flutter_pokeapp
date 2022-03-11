@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pokeapp/core/models/pokemon.dart';
+import 'package:pokeapp/core/models/stat.dart';
 
 class StatWidget extends StatelessWidget {
   final Stat s;

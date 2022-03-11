@@ -7,11 +7,11 @@ void showSnackBar(BuildContext context, Failure f) {
     ..showSnackBar(SnackBar(content: Text(getFailureMessage(f))));
 }
 
+/// Returns a readable error message based on a `Failure` enum value.
 String getFailureMessage(Failure f) {
   switch (f) {
     case Failure.SocketFailure:
       return "Check your connection.";
-
     case Failure.UnexpectedFailure:
       return "Unexpected Error";
     case Failure.TimeoutFailure:

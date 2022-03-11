@@ -1,5 +1,6 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
+// I decided to just keep  what i need.
 class Result {
   Result({
     required this.id,

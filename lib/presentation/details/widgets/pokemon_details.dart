@@ -18,6 +18,8 @@ class PokemonDetails extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              // Basic pokemon info, i couldn't find the unit metric
+              // used for height and weight
               InfoItem(field: "Height:", value: '${pokemon.height}'),
               InfoItem(field: "Weight:", value: '${pokemon.weight}'),
               const Divider(),
@@ -25,6 +27,8 @@ class PokemonDetails extends StatelessWidget {
                 "Types",
                 style: TextStyle(fontSize: 18),
               ),
+              // Display a chip for the type of pokemon [normal, grass, poison ....]
+              // with the color type identifier
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: pokemon.types
@@ -38,6 +42,8 @@ class PokemonDetails extends StatelessWidget {
                     .toList(),
               ),
               const Divider(),
+              // Display the pokemon stats, i use a progressbar to show a visual
+              // representation of pokemon's baseStat
               Column(
                   children: pokemon.stats.map((s) {
                 return StatWidget(s: s);

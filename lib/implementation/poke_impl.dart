@@ -73,6 +73,9 @@ class PokeImplementation extends PokeRepository {
     }
   }
 
+  /// Ads a `Pokemon` in a no persistent list
+  /// so it can returns a cached `Pokemon`
+  /// to avoid another request.
   void addToCache(Pokemon pokemon) {
     cachedPokemons = [
       ...cachedPokemons.where((p) => p.id != pokemon.id),
@@ -80,6 +83,7 @@ class PokeImplementation extends PokeRepository {
     ];
   }
 
+  /// Returns `Pokemon?` if it's exists in the cached list.
   Pokemon? getFromCahe(String id) {
     List<Pokemon> pokemons = [];
     final idPk = int.tryParse(id);

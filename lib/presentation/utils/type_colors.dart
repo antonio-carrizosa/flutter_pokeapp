@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+/// Gets the color dependindg on the  pokemon's type species name.
 Map<String, Color> typeColors = {
   "normal": const Color(0XFFA8A77A),
   "fire": const Color(0XFFEE8130),

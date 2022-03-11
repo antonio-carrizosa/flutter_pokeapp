@@ -25,10 +25,15 @@ class DetailsScreen extends StatelessWidget {
       body: SafeArea(
           child: Column(
         children: [
+          // Shows the pokemon's id, name and image;
           Profile(id: result.id, pokemon: result),
           InfoBg(
             child: Consumer(
               builder: (_, ref, __) {
+                // I decide to use the FutureProviderFamily that comes with Riverpod
+                // instead of a FutureBuilder because it has an union for handle every
+                // case. I don't handle the error function because the error comes
+                // in the regular data flow.
                 return ref.watch(getPokemon.call('${result.id}')).maybeWhen(
                       data: (Either<Failure, Pokemon> failureOrSuccess) {
                         return failureOrSuccess.fold(

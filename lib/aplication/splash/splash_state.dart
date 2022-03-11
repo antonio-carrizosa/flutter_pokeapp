@@ -1,6 +1,14 @@
 import 'package:pokeapp/core/failures/failures.dart';
 import 'package:pokeapp/core/models/result.dart';
 
+/// Representation of the Splash State
+/// it can be:
+///
+///  [Loading], [Loaded] or [Error]
+///
+/// [Loaded] receives a non nullable `List<Result>` results
+///
+/// [Error] receives a non nullable value from enum `Failure`.
 abstract class SplashState {}
 
 class Loading extends SplashState {}

@@ -12,18 +12,21 @@ class SplashStateNotifier extends StateNotifier<SplashState> {
     _init();
   }
 
+  /// Try to get a List<Result> results from https://pokeapi.co/
+  /// if it can't the updates then state with Error(failure: f).
   Future<void> _init() async {
-    final pokeList = await _pokeRepository.getPokeList();
-    pokeList.fold(
+    final failureOrSuccess = await _pokeRepository.getPokeList();
+    failureOrSuccess.fold(
       (Failure f) {
         state = Error(failure: f);
       },
-      (List<Result> pokeList) {
-        state = Loaded(results: pokeList);
+      (List<Result> results) {
+        state = Loaded(results: results);
       },
     );
   }
 
+  /// Retry to get a List<Result> results from https://pokeapi.co/
   Future<void> retry() async {
     state = Loading();
     _init();
