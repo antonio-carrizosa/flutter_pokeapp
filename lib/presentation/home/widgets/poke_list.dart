@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:pokeapp/core/models/result.dart';
-import 'package:pokeapp/presentation/details/pokemon_details.dart';
+import 'package:pokeapp/presentation/details/details_screem.dart';
 import 'package:pokeapp/presentation/home/widgets/poke_list_item.dart';
 
 class PokeList extends HookWidget {
@@ -38,7 +38,7 @@ class PokeList extends HookWidget {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (_) => PokemonDetails(
+                  builder: (_) => DetailsScreen(
                     id: index + 1,
                     pokemon: pokemon,
                   ),

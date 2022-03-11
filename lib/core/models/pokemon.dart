@@ -1,51 +1,55 @@
 class Pokemon {
-  Pokemon({
-    required this.baseExperience,
-    required this.height,
-    required this.heldItems,
-    required this.id,
-    required this.isDefault,
-    required this.locationAreaEncounters,
-    required this.name,
-    required this.order,
-    required this.pastTypes,
-    required this.weight,
+  Pokemon({required this.height, required this.weight, required this.types});
+
+  final int height;
+  final int weight;
+  final List<Type> types;
+
+  factory Pokemon.fromJson(Map<String, dynamic> json) {
+    return Pokemon(
+      height: json["height"],
+      weight: json["weight"],
+      types: List<Type>.from(json["types"].map((x) => Type.fromJson(x))),
+    );
+  }
+}
+
+class Type {
+  Type({
+    required this.slot,
+    required this.type,
   });
 
-  final int baseExperience;
-  final int height;
-  final List<dynamic> heldItems;
-  final int id;
-  final bool isDefault;
-  final String locationAreaEncounters;
-  final String name;
-  final int order;
-  final List<dynamic> pastTypes;
-  final int weight;
+  int slot;
+  Species type;
 
-  factory Pokemon.fromJson(Map<String, dynamic> json) => Pokemon(
-        baseExperience: json["base_experience"],
-        height: json["height"],
-        heldItems: List<dynamic>.from(json["held_items"].map((x) => x)),
-        id: json["id"],
-        isDefault: json["is_default"],
-        locationAreaEncounters: json["location_area_encounters"],
-        name: json["name"],
-        order: json["order"],
-        pastTypes: List<dynamic>.from(json["past_types"].map((x) => x)),
-        weight: json["weight"],
+  factory Type.fromJson(Map<String, dynamic> json) => Type(
+        slot: json["slot"],
+        type: Species.fromJson(json["type"]),
       );
 
   Map<String, dynamic> toJson() => {
-        "base_experience": baseExperience,
-        "height": height,
-        "held_items": List<dynamic>.from(heldItems.map((x) => x)),
-        "id": id,
-        "is_default": isDefault,
-        "location_area_encounters": locationAreaEncounters,
+        "slot": slot,
+        "type": type.toJson(),
+      };
+}
+
+class Species {
+  Species({
+    required this.name,
+    required this.url,
+  });
+
+  String name;
+  String url;
+
+  factory Species.fromJson(Map<String, dynamic> json) => Species(
+        name: json["name"],
+        url: json["url"],
+      );
+
+  Map<String, dynamic> toJson() => {
         "name": name,
-        "order": order,
-        "past_types": List<dynamic>.from(pastTypes.map((x) => x)),
-        "weight": weight,
+        "url": url,
       };
 }
