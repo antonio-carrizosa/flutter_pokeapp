@@ -77,13 +77,15 @@ class Home extends ConsumerWidget {
             ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: notifier.refresh,
-        child: Icon(
-          Icons.refresh,
-          color: Theme.of(context).primaryColor,
-        ),
-      ),
+      floatingActionButton: (state.searching || state.founded != null)
+          ? null
+          : FloatingActionButton(
+              onPressed: notifier.refresh,
+              child: Icon(
+                Icons.refresh,
+                color: Theme.of(context).primaryColor,
+              ),
+            ),
     );
   }
 }

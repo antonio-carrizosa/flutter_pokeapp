@@ -46,10 +46,10 @@ class HomeStateNotifier extends StateNotifier<HomeState> {
   Future<void> searchPokemon(String term) async {
     if (term.isEmpty) {
       state = state.copyWith(
-        results: _resultList,
-        founded: null,
-        searching: false,
-      );
+          results: _resultList,
+          founded: null,
+          searching: false,
+          failureOption: const None());
     } else {
       state = state.copyWith(searching: true, founded: null);
       final failureOrSuccess =

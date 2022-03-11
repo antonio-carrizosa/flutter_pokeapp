@@ -29,7 +29,7 @@ class PokeImplementation extends PokeRepository {
         }
         final pokemons = List.generate(10, (index) {
           final result = Result.fromJson(pokeList[index]);
-          final id = offset == 0 ? index + 1 : offset + index;
+          final id = offset == 0 ? index + 1 : offset + index + 1;
           return result.copyWith(id: id);
         });
         offset += 10;
