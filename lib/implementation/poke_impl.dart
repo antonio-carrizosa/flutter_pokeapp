@@ -14,6 +14,7 @@ class PokeImplementation extends PokeRepository {
   final spriteBaseUrl = dotenv.env['SPRITE_URL'];
 
   int offset = 0;
+  List<Pokemon> cachedPokemons = [];
 
   @override
   Future<Either<Failure, List<Result>>> getPokeList() async {
@@ -24,7 +25,7 @@ class PokeImplementation extends PokeRepository {
       if (response.statusCode == 200) {
         final List<dynamic> pokeList = data['results'];
         if (pokeList.isEmpty) {
-          return Left(NoMoreItems());
+          return const Left(Failure.NoMoreItems);
         }
         final pokemons = List.generate(10, (index) {
           final result = Result.fromJson(pokeList[index]);
@@ -34,35 +35,59 @@ class PokeImplementation extends PokeRepository {
         offset += 10;
         return Right(pokemons);
       }
-
-      return Left(UnexpectedFailure());
+      return const Left(Failure.UnexpectedFailure);
     } on SocketException {
-      return Left(SocketFailure());
+      return const Left(Failure.SocketFailure);
     } on TimeoutException {
-      return Left(TimeoutFailure());
+      return const Left(Failure.TimeoutFailure);
     }
   }
 
   @override
   Future<Either<Failure, Pokemon>> getPokemon(String id) async {
+    final cachedPokemon = getFromCahe(id);
+    if (cachedPokemon != null) {
+      return Right(cachedPokemon);
+    }
+
     try {
       final url = Uri.parse('$pokeApi/$id');
       final response = await http.get(url).timeout(const Duration(seconds: 5));
-      if (response.statusCode == 400) {
-        return Left(ItemNotFounded());
+      if (response.statusCode == 404) {
+        return const Left(Failure.ItemNotFounded);
       }
       final data = jsonDecode(response.body);
       if (response.statusCode == 200) {
-        return Right(Pokemon.fromJson(data));
+        final pokemon = Pokemon.fromJson(data);
+        addToCache(pokemon);
+        return Right(pokemon);
       }
 
-      return Left(UnexpectedFailure());
+      return const Left(Failure.UnexpectedFailure);
     } on SocketException {
-      return Left(SocketFailure());
+      return const Left(Failure.SocketFailure);
     } on TimeoutException {
-      return Left(TimeoutFailure());
+      return const Left(Failure.TimeoutFailure);
     } on FormatException {
-      return Left(ItemNotFounded());
+      return const Left(Failure.ItemNotFounded);
     }
+  }
+
+  void addToCache(Pokemon pokemon) {
+    cachedPokemons = [
+      ...cachedPokemons.where((p) => p.id != pokemon.id),
+      pokemon
+    ];
+  }
+
+  Pokemon? getFromCahe(String id) {
+    List<Pokemon> pokemons = [];
+    final idPk = int.tryParse(id);
+    if (idPk != null) {
+      pokemons = cachedPokemons.where((p) => p.id == idPk).toList();
+    } else {
+      pokemons = cachedPokemons.where((p) => p.name == id).toList();
+    }
+    return pokemons.isNotEmpty ? pokemons[0] : null;
   }
 }

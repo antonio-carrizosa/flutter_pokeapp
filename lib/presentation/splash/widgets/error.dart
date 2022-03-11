@@ -25,7 +25,7 @@ class CustomErrorWidget extends StatelessWidget {
               ),
               const SizedBox(height: 10),
               const Text(
-                "OPPS! \n Parece que algo salió mal.",
+                "OPPS! \n Something went wrong.",
                 textAlign: TextAlign.center,
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
               ),
@@ -50,7 +50,7 @@ class CustomErrorWidget extends StatelessWidget {
                       primary: Theme.of(context).errorColor,
                     ),
                     onPressed: retry,
-                    child: const Text("Reintentar"),
+                    child: const Text("Retry"),
                   ),
                 ),
             ],

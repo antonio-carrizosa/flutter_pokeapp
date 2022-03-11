@@ -7,6 +7,7 @@ import 'package:pokeapp/presentation/details/details_screen.dart';
 import 'package:pokeapp/presentation/home/widgets/custom_search_bar.dart';
 import 'package:pokeapp/presentation/home/widgets/poke_list.dart';
 import 'package:pokeapp/presentation/home/widgets/poke_result.dart';
+import 'package:pokeapp/presentation/utils/snackbar.dart';
 import 'package:pokeapp/providers.dart';
 
 class Home extends ConsumerWidget {
@@ -22,10 +23,7 @@ class Home extends ConsumerWidget {
 
     ref.listen<HomeState>(homeStateNotifier, (prevState, newState) {
       newState.failureOption.fold(() {}, (f) {
-        ScaffoldMessenger.of(context)
-          ..hideCurrentSnackBar()
-          ..showSnackBar(
-              const SnackBar(content: Text("Error al obtener mas pokemon.")));
+        showSnackBar(context, f);
         ref.read(homeStateNotifier.notifier).clearError();
       });
     });

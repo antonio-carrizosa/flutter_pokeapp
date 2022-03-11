@@ -7,6 +7,7 @@ import 'package:pokeapp/core/models/result.dart';
 import 'package:pokeapp/presentation/details/widgets/info_bg.dart';
 import 'package:pokeapp/presentation/details/widgets/pokemon_details.dart';
 import 'package:pokeapp/presentation/details/widgets/profile.dart';
+import 'package:pokeapp/presentation/utils/snackbar.dart';
 import 'package:pokeapp/providers.dart';
 
 class DetailsScreen extends StatelessWidget {
@@ -31,8 +32,8 @@ class DetailsScreen extends StatelessWidget {
                 return ref.watch(getPokemon.call('${pokemon.id}')).maybeWhen(
                       data: (Either<Failure, Pokemon> failureOrSuccess) {
                         return failureOrSuccess.fold(
-                          (Failure f) => const Center(
-                            child: Text("Error"),
+                          (Failure f) => Center(
+                            child: Text(getFailureMessage(f)),
                           ),
                           (Pokemon pokemon) {
                             return PokemonDetails(pokemon: pokemon);
