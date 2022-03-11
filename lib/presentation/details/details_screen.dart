@@ -11,10 +11,10 @@ import 'package:pokeapp/presentation/utils/snackbar.dart';
 import 'package:pokeapp/providers.dart';
 
 class DetailsScreen extends StatelessWidget {
-  final Result pokemon;
+  final Result result;
   const DetailsScreen({
     Key? key,
-    required this.pokemon,
+    required this.result,
   }) : super(key: key);
 
   @override
@@ -25,11 +25,11 @@ class DetailsScreen extends StatelessWidget {
       body: SafeArea(
           child: Column(
         children: [
-          Profile(id: pokemon.id, pokemon: pokemon),
+          Profile(id: result.id, pokemon: result),
           InfoBg(
             child: Consumer(
               builder: (_, ref, __) {
-                return ref.watch(getPokemon.call('${pokemon.id}')).maybeWhen(
+                return ref.watch(getPokemon.call('${result.id}')).maybeWhen(
                       data: (Either<Failure, Pokemon> failureOrSuccess) {
                         return failureOrSuccess.fold(
                           (Failure f) => Center(

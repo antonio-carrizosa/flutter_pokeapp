@@ -12,32 +12,32 @@ class HomeStateNotifier extends StateNotifier<HomeState> {
 
   HomeStateNotifier(this._pokeRepository) : super(HomeState.initial());
 
-  List<Result> _pokelist = [];
+  List<Result> _resultList = [];
 
-  void addPokemons(List<Result> pokemons) {
-    _pokelist = [..._pokelist, ...pokemons];
+  void addResults(List<Result> results) {
+    _resultList = [..._resultList, ...results];
     state = state.copyWith(
-      pokemons: _pokelist,
+      results: _resultList,
       loading: false,
     );
   }
 
-  Future<void> getMorePokemons() async {
+  Future<void> loadMoreResults() async {
     if (!state.loading) {
       state = state.copyWith(
         loading: true,
         failureOption: const None(),
       );
-      final pokeList = await _pokeRepository.getPokeList();
-      pokeList.fold(
+      final resultList = await _pokeRepository.getPokeList();
+      resultList.fold(
         (Failure f) {
           state = state.copyWith(
             failureOption: Some(f),
             loading: false,
           );
         },
-        (List<Result> pokeList) {
-          addPokemons(pokeList);
+        (List<Result> results) {
+          addResults(results);
         },
       );
     }
@@ -46,7 +46,7 @@ class HomeStateNotifier extends StateNotifier<HomeState> {
   Future<void> searchPokemon(String term) async {
     if (term.isEmpty) {
       state = state.copyWith(
-        pokemons: _pokelist,
+        results: _resultList,
         founded: null,
         searching: false,
       );
@@ -66,12 +66,12 @@ class HomeStateNotifier extends StateNotifier<HomeState> {
   }
 
   void refresh() {
-    state = HomeState.initial().copyWith(pokemons: _pokelist);
+    state = HomeState.initial().copyWith(results: _resultList);
   }
 
   void deletePokemon(int id) {
     state =
-        state.copyWith(pokemons: [...state.pokemons.where((p) => p.id != id)]);
+        state.copyWith(results: [...state.results.where((p) => p.id != id)]);
   }
 
   void clearError() {

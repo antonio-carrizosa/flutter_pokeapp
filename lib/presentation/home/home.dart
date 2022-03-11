@@ -5,8 +5,8 @@ import 'package:pokeapp/aplication/home/home_state.dart';
 import 'package:pokeapp/core/models/result.dart';
 import 'package:pokeapp/presentation/details/details_screen.dart';
 import 'package:pokeapp/presentation/home/widgets/custom_search_bar.dart';
-import 'package:pokeapp/presentation/home/widgets/poke_list.dart';
-import 'package:pokeapp/presentation/home/widgets/poke_result.dart';
+import 'package:pokeapp/presentation/home/widgets/result_list.dart';
+import 'package:pokeapp/presentation/home/widgets/search_result.dart';
 import 'package:pokeapp/presentation/utils/snackbar.dart';
 import 'package:pokeapp/providers.dart';
 
@@ -19,9 +19,9 @@ class Home extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(homeStateNotifier);
     final notifier = ref.read(homeStateNotifier.notifier);
-    final pokemons = state.pokemons;
+    final results = state.results;
 
-    ref.listen<HomeState>(homeStateNotifier, (prevState, newState) {
+    ref.listen<HomeState>(homeStateNotifier, (_, newState) {
       newState.failureOption.fold(() {}, (f) {
         showSnackBar(context, f);
         ref.read(homeStateNotifier.notifier).clearError();
@@ -31,7 +31,7 @@ class Home extends ConsumerWidget {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light.copyWith(
         systemNavigationBarColor: Colors.black,
         statusBarColor: Theme.of(context).primaryColor,
-        statusBarIconBrightness: Brightness.light));
+        statusBarIconBrightness: Brightness.dark));
 
     return Scaffold(
       appBar: AppBar(
@@ -46,12 +46,12 @@ class Home extends ConsumerWidget {
               child: CircularProgressIndicator(),
             ),
           if (state.founded != null)
-            PokeResult(
+            SearchResult(
               pokemon: state.founded!,
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(
                   builder: (_) => DetailsScreen(
-                      pokemon: Result(
+                      result: Result(
                           id: state.founded!.id, name: state.founded!.name)),
                 ));
               },
@@ -61,9 +61,9 @@ class Home extends ConsumerWidget {
               child: Column(
                 children: [
                   Expanded(
-                    child: PokeList(
-                      pokemons: pokemons,
-                      loadMore: notifier.getMorePokemons,
+                    child: ResultList(
+                      results: results,
+                      loadMore: notifier.loadMoreResults,
                       deletePokemon: notifier.deletePokemon,
                     ),
                   ),

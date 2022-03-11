@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:pokeapp/extensions/x_capitalize.dart';
 import 'package:pokeapp/core/models/result.dart';
 
-class PokeListItem extends StatelessWidget {
-  final Result pokemon;
+class ResultListItem extends StatelessWidget {
+  final Result result;
 
   final void Function() onTap;
   final void Function() delete;
 
-  const PokeListItem({
+  const ResultListItem({
     Key? key,
-    required this.pokemon,
+    required this.result,
     required this.onTap,
     required this.delete,
   }) : super(key: key);
@@ -34,11 +34,11 @@ class PokeListItem extends StatelessWidget {
                         width: 80,
                         height: 80,
                         child: Hero(
-                          tag: pokemon.name,
+                          tag: result.name,
                           child: FadeInImage(
                             placeholder:
                                 const AssetImage('assets/pokeball.png'),
-                            image: NetworkImage(pokemon.asset),
+                            image: NetworkImage(result.asset),
                             imageErrorBuilder: (_, __, ___) {
                               return Image.asset('assets/pokeball.png');
                             },
@@ -47,7 +47,7 @@ class PokeListItem extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      pokemon.name.capitalize(),
+                      '#${result.id} ${result.name.capitalize()}',
                       style: const TextStyle(
                           color: Colors.white,
                           fontSize: 20,

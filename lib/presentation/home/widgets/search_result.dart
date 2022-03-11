@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:pokeapp/core/models/pokemon.dart';
 import 'package:pokeapp/extensions/x_capitalize.dart';
 
-class PokeResult extends StatelessWidget {
+class SearchResult extends StatelessWidget {
   final Pokemon pokemon;
   final void Function() onTap;
 
-  const PokeResult({Key? key, required this.pokemon, required this.onTap})
+  const SearchResult({Key? key, required this.pokemon, required this.onTap})
       : super(key: key);
 
   @override

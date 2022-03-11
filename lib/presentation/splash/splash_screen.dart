@@ -19,7 +19,7 @@ class SplashScreen extends StatelessWidget {
           builder: (_, ref, __) {
             ref.listen<SplashState>(splashStateNotifier, (_, next) {
               if (next is Loaded) {
-                ref.read(homeStateNotifier.notifier).addPokemons(next.results);
+                ref.read(homeStateNotifier.notifier).addResults(next.results);
                 Navigator.pushReplacement(
                     context, MaterialPageRoute(builder: (_) => const Home()));
               }
