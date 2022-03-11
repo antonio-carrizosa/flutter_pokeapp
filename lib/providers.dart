@@ -20,6 +20,7 @@ final splashStateNotifier =
 final homeStateNotifier = StateNotifierProvider<HomeStateNotifier, HomeState>(
     (ref) => HomeStateNotifier(ref.watch(pokeRepository)));
 
-final getPokemon = FutureProviderFamily<Either<Failure, Pokemon>, int>(
+final getPokemon =
+    FutureProvider.autoDispose.family<Either<Failure, Pokemon>, String>(
   (ref, id) => ref.watch(pokeRepository).getPokemon(id),
 );

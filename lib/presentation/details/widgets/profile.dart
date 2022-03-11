@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pokeapp/core/models/result.dart';
 import 'package:pokeapp/extensions/x_capitalize.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-
-final spriteBaseUrl = dotenv.env['SPRITE_URL'];
 
 class Profile extends StatelessWidget {
   const Profile({
@@ -44,7 +41,7 @@ class Profile extends StatelessWidget {
           height: 150,
           child: Hero(
             tag: pokemon.name,
-            child: Image.network('$spriteBaseUrl/$id.png'),
+            child: Image.network(pokemon.asset),
           ),
         ),
       ],

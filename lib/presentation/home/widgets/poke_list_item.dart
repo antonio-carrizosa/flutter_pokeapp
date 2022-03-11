@@ -1,20 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:pokeapp/extensions/x_capitalize.dart';
 import 'package:pokeapp/core/models/result.dart';
 
-final spriteBaseUrl = dotenv.env['SPRITE_URL'];
-
 class PokeListItem extends StatelessWidget {
   final Result pokemon;
-  final int id;
+
   final void Function() onTap;
+  final void Function() delete;
 
   const PokeListItem({
     Key? key,
     required this.pokemon,
-    required this.id,
     required this.onTap,
+    required this.delete,
   }) : super(key: key);
 
   @override
@@ -40,9 +38,9 @@ class PokeListItem extends StatelessWidget {
                           child: FadeInImage(
                             placeholder:
                                 const AssetImage('assets/pokeball.png'),
-                            image: NetworkImage('$spriteBaseUrl/$id.png'),
+                            image: NetworkImage(pokemon.asset),
                             imageErrorBuilder: (_, __, ___) {
-                              return Image.asset('$spriteBaseUrl/$id.png');
+                              return Image.asset('assets/pokeball.png');
                             },
                           ),
                         ),
@@ -60,10 +58,7 @@ class PokeListItem extends StatelessWidget {
                 Row(
                   children: [
                     IconButton(
-                      onPressed: () {
-                        //TODO: Implementar eliminar
-                        print("delete");
-                      },
+                      onPressed: delete,
                       icon: const Icon(
                         Icons.delete,
                         size: 30,

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:dartz/dartz.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pokeapp/aplication/home/home_state.dart';
@@ -10,9 +12,12 @@ class HomeStateNotifier extends StateNotifier<HomeState> {
 
   HomeStateNotifier(this._pokeRepository) : super(HomeState.initial());
 
+  List<Result> _pokelist = [];
+
   void addPokemons(List<Result> pokemons) {
+    _pokelist = [..._pokelist, ...pokemons];
     state = state.copyWith(
-      pokemons: [...state.pokemons, ...pokemons],
+      pokemons: _pokelist,
       loading: false,
     );
   }
@@ -36,6 +41,37 @@ class HomeStateNotifier extends StateNotifier<HomeState> {
         },
       );
     }
+  }
+
+  Future<void> searchPokemon(String term) async {
+    if (term.isEmpty) {
+      state = state.copyWith(
+        pokemons: _pokelist,
+        founded: null,
+        searching: false,
+      );
+    } else {
+      state = state.copyWith(searching: true, founded: null);
+      final failureOrSuccess =
+          await _pokeRepository.getPokemon(term.toLowerCase());
+      failureOrSuccess.fold((f) {
+        state = state.copyWith(
+          failureOption: Some(f),
+          searching: false,
+        );
+      }, (p) {
+        state = state.copyWith(founded: p, searching: false);
+      });
+    }
+  }
+
+  void refresh() {
+    state = HomeState.initial().copyWith(pokemons: _pokelist);
+  }
+
+  void deletePokemon(int id) {
+    state =
+        state.copyWith(pokemons: [...state.pokemons.where((p) => p.id != id)]);
   }
 
   void clearError() {

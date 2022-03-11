@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:pokeapp/core/models/result.dart';
-import 'package:pokeapp/presentation/details/details_screem.dart';
+import 'package:pokeapp/presentation/details/details_screen.dart';
 import 'package:pokeapp/presentation/home/widgets/poke_list_item.dart';
 
 class PokeList extends HookWidget {
   final List<Result> pokemons;
   final void Function() loadMore;
-  const PokeList({Key? key, required this.pokemons, required this.loadMore})
+  final void Function(int id) deletePokemon;
+  const PokeList(
+      {Key? key,
+      required this.pokemons,
+      required this.loadMore,
+      required this.deletePokemon})
       : super(key: key);
 
   @override
@@ -16,9 +21,8 @@ class PokeList extends HookWidget {
 
     useEffect(() {
       scrollController.addListener(() {
-        if (scrollController.offset >=
+        if (scrollController.offset ==
             scrollController.position.maxScrollExtent) {
-          //TODO: Corregir el numero de peticiones
           loadMore();
         }
       });
@@ -33,17 +37,17 @@ class PokeList extends HookWidget {
         final pokemon = pokemons[index];
         return PokeListItem(
           pokemon: pokemon,
-          id: index + 1,
           onTap: () {
+            FocusScope.of(context).unfocus();
             Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: (_) => DetailsScreen(
-                    id: index + 1,
                     pokemon: pokemon,
                   ),
                 ));
           },
+          delete: () => deletePokemon(pokemon.id),
         );
       },
     );

@@ -10,11 +10,9 @@ import 'package:pokeapp/presentation/details/widgets/profile.dart';
 import 'package:pokeapp/providers.dart';
 
 class DetailsScreen extends StatelessWidget {
-  final int id;
   final Result pokemon;
   const DetailsScreen({
     Key? key,
-    required this.id,
     required this.pokemon,
   }) : super(key: key);
 
@@ -26,11 +24,11 @@ class DetailsScreen extends StatelessWidget {
       body: SafeArea(
           child: Column(
         children: [
-          Profile(id: id, pokemon: pokemon),
+          Profile(id: pokemon.id, pokemon: pokemon),
           InfoBg(
             child: Consumer(
               builder: (_, ref, __) {
-                return ref.watch(getPokemon.call(id)).maybeWhen(
+                return ref.watch(getPokemon.call('${pokemon.id}')).maybeWhen(
                       data: (Either<Failure, Pokemon> failureOrSuccess) {
                         return failureOrSuccess.fold(
                           (Failure f) => const Center(
